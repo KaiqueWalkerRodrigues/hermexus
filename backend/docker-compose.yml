@@ -20,6 +20,18 @@ services:
     networks:
       - hermexus-network
 
+  c-mysql:
+    image: mysql:8.0
+    container_name: c-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_DATABASE: hermexus_db
+    ports:
+      - "3306:3306"
+    networks:
+      - hermexus-network
+
 networks:
   hermexus-network:
     driver: bridge
