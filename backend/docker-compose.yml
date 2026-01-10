@@ -1,6 +1,7 @@
 services:
   hermexusapi:
     image: kaiquewalker/hermexusapi:latest
+    container_name: c-backend
     build:
       context: .
       dockerfile: hermexusapi/Dockerfile

@@ -27,4 +27,4 @@ RUN dotnet publish "./hermexusapi.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080"]
+ENTRYPOINT ["dotnet", "hermexusapi.dll"]
