@@ -1,5 +1,6 @@
 using hermexusapi.Configuration;
 using hermexusapi.Configurations;
+using RestWithASPNET10Erudio.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.ConfigureSerilog();
 builder.Services.AddControllers();
 
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
+builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 

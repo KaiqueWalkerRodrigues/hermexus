@@ -1,6 +1,5 @@
 ﻿using hermexusapi.Models.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace hermexusapi.Configuration
 {
