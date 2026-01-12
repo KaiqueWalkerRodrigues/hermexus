@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestWithASPNET10Erudio.Models.Base
+namespace hermexusapi.Models.Base
 {
     public class BaseEntity
     {

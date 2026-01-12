@@ -1,10 +1,37 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using hermexusapi.Models.Base;
+using hermexusapi.Models;
 
 namespace hermexusapi.Models.Context
 {
     public class MySQLContext(DbContextOptions<MySQLContext> options) : DbContext(options)
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configures a Global Query Filter for Soft Delete on all supported entities.
+            // This automatically adds "WHERE Deleted_at IS NULL" to all LINQ queries.
+            modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
+            modelBuilder.Entity<Role>().HasQueryFilter(r => r.Deleted_at == null);
+
+            // Fluent API configuration for Role entity
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.ToTable("roles");
+                entity.HasKey(e => e.Id);
+            });
+
+            // Fluent API configuration for User entity
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("users");
+                entity.HasKey(e => e.Id);
+            });
+        }
 
         public override int SaveChanges()
         {
@@ -20,7 +47,7 @@ namespace hermexusapi.Models.Context
 
         private void AddTimestamps()
         {
-            // Retrieves all entities that have been added or modified.
+            // Retrieves all entities that have been added or modified in the current ChangeTracker session.
             var entries = ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
@@ -28,13 +55,13 @@ namespace hermexusapi.Models.Context
             {
                 var now = DateTime.Now;
 
-                // 1. Checks if it's an insertion and if it has the "Updated_at" property.
+                // 1. Automatically updates the "Updated_at" field for any modified or added entity.
                 if (entry.Properties.Any(p => p.Metadata.Name == "Updated_at"))
                 {
                     entry.Property("Updated_at").CurrentValue = now;
                 }
 
-                // 2. Check if it's an insertion and if it has the "Created_at" property.
+                // 2. Automatically sets the "Created_at" field only when a new entity is first added.
                 if (entry.State == EntityState.Added)
                 {
                     if (entry.Properties.Any(p => p.Metadata.Name == "Created_at"))

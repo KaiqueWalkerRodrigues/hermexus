@@ -1,6 +1,6 @@
 ﻿using hermexusapi.Models.Context;
 using Microsoft.EntityFrameworkCore;
-using RestWithASPNET10Erudio.Models.Base;
+using hermexusapi.Models.Base;
 
 namespace hermexusapi.Repositories.Impl
 {
@@ -37,9 +37,15 @@ namespace hermexusapi.Repositories.Impl
         }
         public bool Delete(long id)
         {
-            var existinItem = _dataset.Find(id);
-            _context.Remove(existinItem);
+            var existingItem = _dataset.Find(id);
+ 
+            if (existingItem == null) return false;
+
+            existingItem.Deleted_at = DateTime.Now;
+
+            _context.Entry(existingItem).State = EntityState.Modified;
             _context.SaveChanges();
+
             return true;
         }
         public bool Exists(long id)

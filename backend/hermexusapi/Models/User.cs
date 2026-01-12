@@ -1,4 +1,4 @@
-﻿using RestWithASPNET10Erudio.Models.Base;
+﻿using hermexusapi.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace hermexusapi.Models

@@ -1,4 +1,4 @@
-﻿using RestWithASPNET10Erudio.Configurations;
+﻿using hermexusapi.Configurations;
 using Testcontainers.MySql;
 
 namespace hermexusapi.tests.IntegrationTests.Tools

@@ -1,4 +1,4 @@
-﻿using RestWithASPNET10Erudio.Models.Base;
+﻿using hermexusapi.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace hermexusapi.Models
@@ -6,5 +6,9 @@ namespace hermexusapi.Models
     [Table("roles")]
     public class Role : BaseEntity
     {
+        [Column("name")]
+        public string Name { get; set; } = string.Empty;
+        [Column("description")]
+        public string Descripition { get; set; } = string.Empty;
     }
 }

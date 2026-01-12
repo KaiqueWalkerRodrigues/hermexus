@@ -1,4 +1,5 @@
-﻿using RestWithASPNET10Erudio.Models.Base;
+﻿using hermexusapi.Models;
+using hermexusapi.Models.Base;
 
 namespace hermexusapi.Repositories
 {
