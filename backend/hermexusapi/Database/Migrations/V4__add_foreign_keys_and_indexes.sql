@@ -1,19 +1,36 @@
--- Constraints que faltaram (baseado no seu schema original)
-ALTER TABLE `conversations`
-ADD CONSTRAINT `fk_conversations_whatsapp_contacts`
-FOREIGN KEY (`contact_id`)
-REFERENCES `whatsapp_contacts` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+-- Migration: Add Foreign Keys and Indexes (Versão Consolidada)
 
-ALTER TABLE `messages`
-ADD CONSTRAINT `fk_messages_whatsapp_contacts`
-FOREIGN KEY (`contact_id`)
-REFERENCES `whatsapp_contacts` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+-- 1. Relacionamentos de Role/Permission
+ALTER TABLE `role_permissions` 
+ADD CONSTRAINT `fk_role_permissions_permissions` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_role_permissions_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
--- Índices adicionais para performance
-CREATE INDEX `idx_conversations_contact` ON `conversations` (`contact_id`);
-CREATE INDEX `idx_messages_contact` ON `messages` (`contact_id`);
-CREATE INDEX `idx_messages_created` ON `messages` (`created_at`);
+-- 2. Relacionamentos de User Roles/Permissions
+ALTER TABLE `users_roles` 
+ADD CONSTRAINT `fk_users_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_users_roles_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `users_permissions` 
+ADD CONSTRAINT `fk_users_permissions_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_users_permissions_permissions` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+-- 3. Relacionamentos de Setores (Empresas, Permissões e Usuários)
+ALTER TABLE `sectors` 
+ADD CONSTRAINT `fk_sectors_companies` FOREIGN KEY (`companies_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION;
+
+ALTER TABLE `sectors_permissions`
+ADD CONSTRAINT `fk_sectors_permissions_permissions` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE NO ACTION,
+ADD CONSTRAINT `fk_sectors_permissions_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE NO ACTION;
+
+ALTER TABLE `users_sectors`
+ADD CONSTRAINT `fk_users_sectors_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION,
+ADD CONSTRAINT `fk_users_sectors_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE NO ACTION;
+
+-- 4. Conversas e Mensagens
+ALTER TABLE `conversations` 
+ADD CONSTRAINT `fk_conversations_companies` FOREIGN KEY (`companies_id`) REFERENCES `companies` (`id`),
+ADD CONSTRAINT `fk_conversations_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`);
+
+ALTER TABLE `messages` 
+ADD CONSTRAINT `fk_messages_conversations` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`),
+ADD CONSTRAINT `fk_messages_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);

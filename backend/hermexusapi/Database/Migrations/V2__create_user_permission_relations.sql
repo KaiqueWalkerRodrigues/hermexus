@@ -1,74 +1,61 @@
--- -----------------------------------------------------
--- Table `hermexus_db`.`role_permissions`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hermexus_db`.`role_permissions` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `role_id` INT NOT NULL,
-  `permission_id` INT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
-  `updated_at` TIMESTAMP NOT NULL,
-  `deleted_at` TIMESTAMP NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_role_permissions_permissions_idx` (`permission_id` ASC) VISIBLE,
-  INDEX `fk_role_permissions_role_idx` (`role_id` ASC) VISIBLE,
-  CONSTRAINT `fk_role_permissions_permissions`
-    FOREIGN KEY (`permission_id`)
-    REFERENCES `hermexus_db`.`permissions` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_role_permissions_roles`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `hermexus_db`.`roles` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- Migration: Create User Permissions, Roles and Sector Relations
 
--- -----------------------------------------------------
--- Table `hermexus_db`.`users_roles`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hermexus_db`.`users_roles` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `role_id` INT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
-  `updated_at` TIMESTAMP NOT NULL,
-  `deleted_at` TIMESTAMP NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_users_roles_roles_idx` (`role_id` ASC) VISIBLE,
-  INDEX `fk_users_roles_users_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_users_roles_roles`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `hermexus_db`.`roles` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_users_roles_users`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `hermexus_db`.`users` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `hermexus_db`.`users_permissions`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hermexus_db`.`users_permissions` (
+CREATE TABLE IF NOT EXISTS `users_permissions` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `permission_id` INT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
-  `updated_at` TIMESTAMP NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` TIMESTAMP NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_users_permissions_users_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_users_permissions_permissions_idx` (`permission_id` ASC) VISIBLE,
-  CONSTRAINT `fk_users_permissions_users`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `hermexus_db`.`users` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_users_permissions_permissions`
-    FOREIGN KEY (`permission_id`)
-    REFERENCES `hermexus_db`.`permissions` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  INDEX `idx_users_permissions_user` (`user_id`),
+  INDEX `idx_users_permissions_permission` (`permission_id`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `role_permissions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role_id` INT NOT NULL,
+  `permission_id` INT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_role_permissions_role` (`role_id`),
+  INDEX `idx_role_permissions_permission` (`permission_id`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `users_roles` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `role_id` INT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_users_roles_user` (`user_id`),
+  INDEX `idx_users_roles_role` (`role_id`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sectors_permissions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sector_id` INT NOT NULL,
+  `permission_id` INT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_sectors_permissions_sector` (`sector_id`),
+  INDEX `idx_sectors_permissions_permission` (`permission_id`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `users_sectors` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sector_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_users_sectors_sector` (`sector_id`),
+  INDEX `idx_users_sectors_user` (`user_id`)
+) ENGINE = InnoDB;
