@@ -6,13 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add Configure files
 builder.ConfigureSerilog();
+builder.Services.AddCorsConfiguration(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
-
 
 builder.Services.AddOpenApi();
 
