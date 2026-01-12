@@ -28,7 +28,6 @@ namespace RestWithASPNET10Erudio.Configurations
                 {
                     using var connection = new MySqlConnection(connectionString);
 
-                    // Build a temporary service provider to resolve the logger
                     using var serviceProvider = services.BuildServiceProvider();
                     var logger = serviceProvider.GetRequiredService<ILogger<MySQLContext>>();
 
@@ -39,7 +38,6 @@ namespace RestWithASPNET10Erudio.Configurations
                         MetadataTableName = "changelog",
                         PlaceholderPrefix = "${",
                         PlaceholderSuffix = "}",
-                        // Opcional: Ativa o log detalhado para debug
                         SqlMigrationSuffix = ".sql"
                     };
 
@@ -53,6 +51,20 @@ namespace RestWithASPNET10Erudio.Configurations
                 }
             }
             return services;
+        }
+
+        public static void ExecuteMigrations(string connectionString)
+        {
+            using var evolveConnection = new MySqlConnection(connectionString);
+            var evolve = new Evolve(
+                evolveConnection,
+                msg => Log.Information(msg)
+                )
+            {
+                Locations = new[] { "Database/Migrations" },
+                IsEraseDisabled = true
+            };
+            evolve.Migrate();
         }
     }
 }

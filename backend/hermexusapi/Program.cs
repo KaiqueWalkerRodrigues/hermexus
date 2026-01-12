@@ -13,11 +13,17 @@ builder.Services.AddControllers();
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
 
+
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
+
+app.MapOpenApi();
+app.AddScalarConfiguration();
 
 // Configure the HTTP request pipeline.
 
-if(!app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 
 app.UseAuthorization();
