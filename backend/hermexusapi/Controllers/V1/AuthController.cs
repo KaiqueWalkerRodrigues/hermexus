@@ -25,7 +25,7 @@ namespace hermexusapi.Controllers.V1
 
         [HttpPost("signin")]
         [AllowAnonymous]
-        public IActionResult SignIn([FromBody] UserDTO user)
+        public IActionResult SignIn([FromBody] SignInDTO user)
         {
             _logger.LogInformation("Attempting to sign in user: {username}", user.Username);
 

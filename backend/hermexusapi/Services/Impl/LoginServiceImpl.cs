@@ -27,7 +27,7 @@ namespace hermexusapi.Services.Impl
             _tokenService = tokenService;
             _configurations = configurations;
         }
-        public TokenDTO ValidateCredentials(UserDTO userDto)
+        public TokenDTO ValidateCredentials(SignInDTO userDto)
         {
             var user = _userAuthService
                 .FindByUsername(userDto.Username);
