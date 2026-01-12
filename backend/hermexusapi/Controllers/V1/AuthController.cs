@@ -25,6 +25,10 @@ namespace hermexusapi.Controllers.V1
 
         [HttpPost("signin")]
         [AllowAnonymous]
+        [ProducesResponseType(200, Type = typeof(List<SignInDTO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+
         public IActionResult SignIn([FromBody] SignInDTO user)
         {
             _logger.LogInformation("Attempting to sign in user: {username}", user.Username);
@@ -51,6 +55,9 @@ namespace hermexusapi.Controllers.V1
 
         [HttpPost("refresh")]
         [AllowAnonymous]
+        [ProducesResponseType(200, Type = typeof(List<SignInDTO>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Refresh(
             [FromBody] TokenDTO tokenDto)
         {
@@ -63,6 +70,8 @@ namespace hermexusapi.Controllers.V1
 
         [HttpPost("revoke")]
         [Authorize]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public IActionResult Revoke()
         {
             var username = User.Identity?.Name;
@@ -77,6 +86,8 @@ namespace hermexusapi.Controllers.V1
 
         [HttpPost("create")]
         [AllowAnonymous]
+        [ProducesResponseType(200, Type = typeof(List<UserDTO>))]
+        [ProducesResponseType(400)]
         public IActionResult Create(
             [FromBody] AccountCredentialsDTO user)
         {
