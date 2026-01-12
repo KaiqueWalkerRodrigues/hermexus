@@ -1,70 +1,52 @@
 ﻿using EvolveDb;
-using hermexusapi.Models.Context;
-using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Serilog;
 
-namespace RestWithASPNET10Erudio.Configurations
+namespace hermexusapi.Configurations
 {
     public static class EvolveConfig
     {
-
-        public static IServiceCollection AddEvolveConfiguration(
-            this IServiceCollection services,
-            IConfiguration configuration,
-            IWebHostEnvironment environment)
+        public static void ExecuteMigrations(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            if (environment.IsDevelopment())
+            if (!environment.IsDevelopment()) return;
+
+            var connectionString = configuration.GetConnectionString("connMySQL");
+            if (string.IsNullOrEmpty(connectionString)) return;
+
+            int retryCount = 0;
+            const int maxRetries = 10;
+
+            while (retryCount < maxRetries)
             {
-                var connectionString = configuration.GetConnectionString("connMySQL");
-
-                if (string.IsNullOrEmpty(connectionString))
-                {
-                    throw new ArgumentNullException(
-                        "Connection string 'MSSQLServerSQLConnectionString' not found.");
-                }
-
                 try
                 {
                     using var connection = new MySqlConnection(connectionString);
 
-                    using var serviceProvider = services.BuildServiceProvider();
-                    var logger = serviceProvider.GetRequiredService<ILogger<MySQLContext>>();
-
-                    var evolve = new Evolve(connection, msg => logger.LogInformation(msg))
+                    var evolve = new Evolve(connection, msg => Log.Information("EVOLVE: {Msg}", msg))
                     {
                         Locations = new[] { "Database/Migrations" },
                         IsEraseDisabled = true,
                         MetadataTableName = "changelog",
-                        PlaceholderPrefix = "${",
-                        PlaceholderSuffix = "}",
                         SqlMigrationSuffix = ".sql"
                     };
 
                     evolve.Migrate();
-                    logger.LogInformation("EVOLVE: Migrations applied successfully.");
+                    Log.Information("EVOLVE: Migrações aplicadas com sucesso.");
+                    return;
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "An error occurred while migrating the database.");
-                    throw;
+                    retryCount++;
+                    if (retryCount >= maxRetries)
+                    {
+                        Log.Fatal(ex, "EVOLVE: Não foi possível conectar ao MySQL após várias tentativas.");
+                        throw;
+                    }
+
+                    Log.Warning("EVOLVE: Banco iniciando... Tentativa {Count}/{Max}. Aguardando 5s...", retryCount, maxRetries);
+                    Thread.Sleep(5000);
                 }
             }
-            return services;
-        }
-
-        public static void ExecuteMigrations(string connectionString)
-        {
-            using var evolveConnection = new MySqlConnection(connectionString);
-            var evolve = new Evolve(
-                evolveConnection,
-                msg => Log.Information(msg)
-                )
-            {
-                Locations = new[] { "Database/Migrations" },
-                IsEraseDisabled = true
-            };
-            evolve.Migrate();
         }
     }
 }
