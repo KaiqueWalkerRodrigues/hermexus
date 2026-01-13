@@ -42,13 +42,6 @@ namespace hermexusapi.Services.Impl
         {
             return _repository.Delete(id);
         }
-
-        public RoleDTO Disable(long id)
-        {
-            var entity = _repository.Disable(id);
-            return entity.Adapt<RoleDTO>();
-        }
-
         public List<RoleDTO> FindByName(string name)
         {
             return _repository

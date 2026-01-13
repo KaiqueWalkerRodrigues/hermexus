@@ -34,10 +34,12 @@ builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
 // Services
 builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
+builder.Services.AddScoped<ISectorService, SectorServiceImpl>();
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ISectorRepository, SectorRepository>();
 
 var app = builder.Build();
 

@@ -10,7 +10,6 @@ namespace hermexusapi.Services
         List<RoleDTO> FindAll();
         RoleDTO Update(RoleDTO role);
         bool Delete(long id);
-        RoleDTO Disable(long id);
         List<RoleDTO> FindByName(string name);
         PagedSearchDTO<RoleDTO> FindWithPagedSearch(
             string name,

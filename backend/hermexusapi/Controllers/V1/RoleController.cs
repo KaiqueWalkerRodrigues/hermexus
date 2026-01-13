@@ -19,16 +19,16 @@ namespace hermexusapi.Controllers.V1
         [ProducesResponseType(200, Type = typeof(RoleDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Create([FromBody] RoleDTO person)
+        public IActionResult Create([FromBody] RoleDTO role)
         {
-            _logger.LogInformation($"Creating new role {person.Name}");
-            var roleCreated = _roleService.Create(person);
+            _logger.LogInformation($"Creating new role {role.Name}");
+            var roleCreated = _roleService.Create(role);
             if (roleCreated == null)
             {
-                _logger.LogError($"Failed to create role {person.Name}");
+                _logger.LogError($"Failed to create role {role.Name}");
                 return NotFound();
             }
-            _logger.LogDebug($"Role {person.Name} created successfully");
+            _logger.LogDebug($"Role {role.Name} created successfully");
             return Ok(roleCreated);
         }
 

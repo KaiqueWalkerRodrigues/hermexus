@@ -2,10 +2,11 @@
 
 namespace hermexusapi.Repositories
 {
-    public interface IRoleRepository : IRepository<Role>
+    public interface ISectorRepository : IRepository<Sector>
     {
-        List<Role> FindByName(string name);
-        PagedSearch<Role> FindWithPagedSearch(
+        Sector Disable(long id);
+        List<Sector> FindByName(string name);
+        PagedSearch<Sector> FindWithPagedSearch(
             string name,
             string sortDirection,
             int pageSize,

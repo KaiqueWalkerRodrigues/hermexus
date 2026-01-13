@@ -8,14 +8,6 @@ namespace hermexusapi.Repositories.Impl
     public class RoleRepository(MySQLContext context)
         : GenericRepository<Role>(context), IRoleRepository
     {
-        public Role Disable(long id)
-        {
-            var role = _context.Roles.Find(id);
-            if (role == null) return null;
-            _context.SaveChanges();
-            return role;
-        }
-
         public List<Role> FindByName(string name)
         {
             var query = _context.Roles.AsQueryable();

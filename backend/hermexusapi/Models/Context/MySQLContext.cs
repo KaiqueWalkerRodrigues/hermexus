@@ -8,6 +8,7 @@ namespace hermexusapi.Models.Context
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
