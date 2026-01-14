@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace hermexusapi.Hypermedia.Enricher
 {
-    public class SectorEnricher : ContentResponseEnricher<SectorDTO>
+    public class UserEnricher : ContentResponseEnricher<UserDTO>
     {
         protected override Task EnrichModel(
-            SectorDTO content, IUrlHelper urlHelper
+            UserDTO content, IUrlHelper urlHelper
             )
         {
             var requet = urlHelper.ActionContext.HttpContext.Request;
-            var baseUrl = $"{requet.Scheme}://{requet.Host.ToUriComponent()}{requet.PathBase.ToUriComponent()}/api/sector/v1";
+            var baseUrl = $"{requet.Scheme}://{requet.Host.ToUriComponent()}{requet.PathBase.ToUriComponent()}/api/user/v1";
             content.Links.AddRange(GenerateLinks(content.Id, baseUrl));
             return Task.CompletedTask;
         }

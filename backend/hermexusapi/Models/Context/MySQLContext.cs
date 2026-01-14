@@ -16,13 +16,21 @@ namespace hermexusapi.Models.Context
 
             // Configures a Global Query Filter for Soft Delete on all supported entities.
             // This automatically adds "WHERE Deleted_at IS NULL" to all LINQ queries.
-            modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
             modelBuilder.Entity<Role>().HasQueryFilter(r => r.Deleted_at == null);
+            modelBuilder.Entity<Sector>().HasQueryFilter(r => r.Deleted_at == null);
+            modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
 
             // Fluent API configuration for Role entity
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("roles");
+                entity.HasKey(e => e.Id);
+            });
+
+            // Fluent API configuration for Role entity
+            modelBuilder.Entity<Sector>(entity =>
+            {
+                entity.ToTable("sectors");
                 entity.HasKey(e => e.Id);
             });
 

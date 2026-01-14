@@ -16,6 +16,9 @@ namespace hermexusapi.Configurations
             filterOptions.ContentReponseEnricherList.Add(
                 new SectorEnricher()
                 );
+            filterOptions.ContentReponseEnricherList.Add(
+                new UserEnricher()
+                );
             services.AddSingleton(filterOptions);
             services.AddScoped<HypermediaFilter>();
             return services;

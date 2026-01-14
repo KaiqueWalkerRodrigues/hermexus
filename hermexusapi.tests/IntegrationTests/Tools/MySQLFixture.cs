@@ -10,7 +10,7 @@ namespace hermexusapi.tests.IntegrationTests.Tools
 
         public MySQLFixture()
         {
-            Container = new MySqlBuilder("mysql:8.0")
+            Container = new MySqlBuilder("mysql:8.0.44")
                 .WithPassword("strong_password")
                 .Build();
         }
@@ -18,7 +18,21 @@ namespace hermexusapi.tests.IntegrationTests.Tools
         public async Task InitializeAsync()
         {
             await Container.StartAsync();
-            EvolveConfig.ExecuteMigrations(ConnectionString);
+
+            // Adicione logging
+            Console.WriteLine($"MySQL Container Started: {Container.GetConnectionString()}");
+
+            try
+            {
+                EvolveConfig.ExecuteMigrations(ConnectionString);
+                Console.WriteLine("Migrations executed successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Migration error: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public async Task DisposeAsync()

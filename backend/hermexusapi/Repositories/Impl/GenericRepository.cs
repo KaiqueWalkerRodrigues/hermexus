@@ -28,9 +28,11 @@ namespace hermexusapi.Repositories.Impl
         {
             return _dataset.Find(id);
         }
-        public T Update(T item)
+        public virtual T Update(T item)
         {
             var existinItem = _dataset.Find(item.Id);
+            if (existinItem == null)
+                return null;
             _context.Entry(existinItem).CurrentValues.SetValues(item);
             _context.SaveChanges();
             return item;

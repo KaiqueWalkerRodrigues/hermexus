@@ -1,7 +1,7 @@
 ﻿using hermexusapi.Models.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace hermexusapi.Configuration
+namespace hermexusapi.Configurations
 {
     public static class DatabaseConfig
     {

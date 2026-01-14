@@ -7,23 +7,16 @@ using hermexusapi.Repositories;
 namespace hermexusapi.Services.Impl
 {
     public class RoleServiceImpl(
-        IRoleRepository repository,
-        ILogger<RoleServiceImpl> logger
+        IRoleRepository repository
             ) : IRoleService
     {
         private IRoleRepository _repository = repository;
-        private readonly ILogger<RoleServiceImpl> _logger = logger;
 
         public RoleDTO Create(RoleDTO role)
         {
             var entity = role.Adapt<Role>();
             entity = _repository.Create(entity);
             return entity.Adapt<RoleDTO>();
-        }
-
-        public List<RoleDTO> FindAll()
-        {
-            return _repository.FindAll().Adapt<List<RoleDTO>>();
         }
 
         public RoleDTO FindById(long id)
@@ -41,12 +34,6 @@ namespace hermexusapi.Services.Impl
         public bool Delete(long id)
         {
             return _repository.Delete(id);
-        }
-        public List<RoleDTO> FindByName(string name)
-        {
-            return _repository
-                .FindByName(name)
-                .Adapt<List<RoleDTO>>();
         }
 
         public PagedSearchDTO<RoleDTO> FindWithPagedSearch(

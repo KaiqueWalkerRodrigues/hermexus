@@ -7,10 +7,8 @@ namespace hermexusapi.Services
     {
         SectorDTO Create(SectorDTO sector);
         SectorDTO FindById(long id);
-        List<SectorDTO> FindAll();
         SectorDTO Update(SectorDTO sector);
         bool Delete(long id);
-        List<SectorDTO> FindByName(string name);
         PagedSearchDTO<SectorDTO> FindWithPagedSearch(
             string name,
             string sortDirection,

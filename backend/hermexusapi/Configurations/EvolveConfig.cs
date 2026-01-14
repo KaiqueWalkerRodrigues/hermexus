@@ -9,8 +9,14 @@ namespace hermexusapi.Configurations
         public static void ExecuteMigrations(IConfiguration configuration, IWebHostEnvironment environment)
         {
             if (!environment.IsDevelopment()) return;
-
             var connectionString = configuration.GetConnectionString("connMySQL");
+            if (string.IsNullOrEmpty(connectionString)) return;
+
+            ExecuteMigrations(connectionString);
+        }
+
+        public static void ExecuteMigrations(string connectionString)
+        {
             if (string.IsNullOrEmpty(connectionString)) return;
 
             int retryCount = 0;

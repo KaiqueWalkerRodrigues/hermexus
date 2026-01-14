@@ -7,21 +7,12 @@ namespace hermexusapi.Controllers.V1
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController(
+        ILoginService loginService,
+        ILogger<AuthController> logger) : ControllerBase
     {
-        private readonly ILoginService _loginService;
-        private readonly IUserAuthService _userAuthService;
-        private readonly ILogger<AuthController> _logger;
-
-        public AuthController(
-            ILoginService loginService,
-            IUserAuthService userAuthService,
-            ILogger<AuthController> logger)
-        {
-            _loginService = loginService;
-            _userAuthService = userAuthService;
-            _logger = logger;
-        }
+        private readonly ILoginService _loginService = loginService;
+        private readonly ILogger<AuthController> _logger = logger;
 
         [HttpPost("signin")]
         [AllowAnonymous]
@@ -82,20 +73,6 @@ namespace hermexusapi.Controllers.V1
 
             if (!result) return BadRequest("Invalid Client Request!");
             return NoContent();
-        }
-
-        [HttpPost("create")]
-        [AllowAnonymous]
-        [ProducesResponseType(200, Type = typeof(List<UserDTO>))]
-        [ProducesResponseType(400)]
-        public IActionResult Create(
-            [FromBody] AccountCredentialsDTO user)
-        {
-            if (user == null)
-                return BadRequest("Invalid client request!");
-
-            var result = _loginService.Create(user);
-            return Ok(result);
         }
     }
 }

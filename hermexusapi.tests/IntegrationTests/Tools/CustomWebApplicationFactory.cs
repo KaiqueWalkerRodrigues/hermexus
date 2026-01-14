@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace hermexusapi.tests.IntegrationTests.Tools
@@ -44,9 +43,8 @@ namespace hermexusapi.tests.IntegrationTests.Tools
                     services.Remove(descriptor);
 
                 services.AddDbContext<MySQLContext>(options =>
-                {
-                    // Use o método correto para MySQL
-                    var serverVersion = ServerVersion.AutoDetect(_connectionString);
+                { 
+                    var serverVersion = new MySqlServerVersion(new Version(8, 0, 44));
                     options.UseMySql(_connectionString, serverVersion);
                 });
             });

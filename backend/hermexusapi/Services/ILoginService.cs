@@ -1,4 +1,5 @@
 ﻿using hermexusapi.DTO.V1;
+using hermexusapi.Models;
 
 namespace hermexusapi.Services
 {
@@ -7,6 +8,5 @@ namespace hermexusapi.Services
         TokenDTO? ValidateCredentials(SignInDTO user);
         TokenDTO? ValidateCredentials(TokenDTO token);
         bool RevokeToken(string username);
-        AccountCredentialsDTO Create(AccountCredentialsDTO user);
     }
 }

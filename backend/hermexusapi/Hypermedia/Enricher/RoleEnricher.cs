@@ -25,7 +25,7 @@ namespace hermexusapi.Hypermedia.Enricher
                 new()
                 {
                     Rel = RelationType.COLLECTION,
-                    Href = $"{baseUrl}",
+                    Href = $"{baseUrl}/asc/10/1",
                     Type = ResponseTypeFormat.DefaultGet,
                     Action = HttpActionVerb.GET
                 },

@@ -2,8 +2,10 @@
 using hermexusapi.Auth.Contract;
 using hermexusapi.DTO.V1;
 using hermexusapi.Models;
-using System.Security.Claims;
+using hermexusapi.Repositories;
+using Mapster;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace hermexusapi.Services.Impl
 {
@@ -11,42 +13,46 @@ namespace hermexusapi.Services.Impl
     {
         private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-        private readonly IUserAuthService _userAuthService;
+        private readonly IUserService _userService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenGenerator _tokenService;
         private readonly TokenConfig _configurations;
         public LoginServiceImpl(
-            IUserAuthService userAuthService,
+            IUserService userService,
             IPasswordHasher passwordHasher,
             ITokenGenerator tokenService,
             TokenConfig configurations
             )
         {
-            _userAuthService = userAuthService;
+            _userService = userService;
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
             _configurations = configurations;
         }
-        public TokenDTO ValidateCredentials(SignInDTO userDto)
+
+        // Verification by username and password
+        public TokenDTO? ValidateCredentials(SignInDTO userDto)
         {
-            var user = _userAuthService
+            var user = _userService
                 .FindByUsername(userDto.Username);
 
             if (user == null) return null;
             if (!_passwordHasher
                 .Verify(userDto.Password, user.Password))
                 return null;
+            if(!user.Is_active) return null;
 
             return GenerateToken(user);
         }
 
+        // Verification by refresh token
         public TokenDTO ValidateCredentials(TokenDTO token)
         {
             var principal = _tokenService
                 .GetPrincipalFromExpiredToken(token.AccessToken);
             var username = principal.Identity?.Name;
 
-            var user = _userAuthService.FindByUsername(username);
+            var user = _userService.FindByUsername(username);
             if (user == null
               || user.RefreshToken != token.RefreshToken
               || user.RefreshTokenExpiryTime <= DateTime.Now)
@@ -58,23 +64,20 @@ namespace hermexusapi.Services.Impl
                 return GenerateToken(user, principal.Claims);
             }
         }
-        public AccountCredentialsDTO Create(AccountCredentialsDTO dto)
-        {
-            var user = _userAuthService
-                .Create(dto);
-            return new AccountCredentialsDTO
-            {
-                Is_active = user.Is_active.ToString(), // Convert bool to string
-                Username = user.Username,
-                Name = user.Name,
-                Password = "************"
-            };
-        }
 
         public bool RevokeToken(string username)
         {
-            return _userAuthService
-                .RevokeToken(username);
+            var user = _userService.FindByUsername(username);
+
+            if (user == null) return false;
+
+            user.RefreshToken = null;
+
+            var userDto = user.Adapt<UserDTO>();
+
+            _userService.Update(userDto);
+
+            return true;
         }
 
         private TokenDTO GenerateToken(
@@ -83,10 +86,9 @@ namespace hermexusapi.Services.Impl
             )
         {
             var claims = existingClaims?.ToList() ??
-            //new List<Claim>
             [
-               new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-               new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
             ];
 
             var accessToken = _tokenService
@@ -99,7 +101,9 @@ namespace hermexusapi.Services.Impl
             user.RefreshTokenExpiryTime = DateTime.UtcNow
                 .AddDays(_configurations.DaysToExpiry);
 
-            _userAuthService.Update(user);
+            var userDto = user.Adapt<UserDTO>();
+
+            _userService.Update(userDto);
 
             var createdDate = DateTime.Now;
             var expirationDate = createdDate

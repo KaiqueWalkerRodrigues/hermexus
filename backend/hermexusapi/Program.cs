@@ -1,6 +1,5 @@
 using hermexusapi.Auth.Contract;
 using hermexusapi.Auth.Contract.Tools;
-using hermexusapi.Configuration;
 using hermexusapi.Configurations;
 using hermexusapi.Hypermedia.Filters;
 using hermexusapi.Repositories;
@@ -28,7 +27,7 @@ builder.Services.AddOpenApi();
 
 // Auth Builders
 builder.Services.AddScoped<IPasswordHasher, Sha256PasswordHasher>();
-builder.Services.AddScoped<IUserAuthService, UserAuthServiceImpl>();
+builder.Services.AddScoped<IUserService, UserServiceImpl>();
 builder.Services.AddScoped<ILoginService, LoginServiceImpl>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
