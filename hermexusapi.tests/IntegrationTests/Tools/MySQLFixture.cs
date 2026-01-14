@@ -1,4 +1,5 @@
 ﻿using hermexusapi.Configurations;
+using System.Reflection;
 using Testcontainers.MySql;
 
 namespace hermexusapi.tests.IntegrationTests.Tools
@@ -19,18 +20,30 @@ namespace hermexusapi.tests.IntegrationTests.Tools
         {
             await Container.StartAsync();
 
-            // Adicione logging
-            Console.WriteLine($"MySQL Container Started: {Container.GetConnectionString()}");
-
             try
             {
-                EvolveConfig.ExecuteMigrations(ConnectionString);
-                Console.WriteLine("Migrations executed successfully");
+                // Pega o diretório onde o .dll do teste está (bin/Debug/net10.0)
+                var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                // Monta o caminho exato para a pasta que você definiu no .csproj
+                var migrationsPath = Path.Combine(assemblyPath!, "Database", "Migrations");
+
+                Console.WriteLine($"Procurando migrations em: {migrationsPath}");
+
+                // Verifique se a pasta realmente existe e tem arquivos
+                if (!Directory.Exists(migrationsPath) || !Directory.GetFiles(migrationsPath).Any())
+                {
+                    throw new DirectoryNotFoundException($"Scripts não encontrados em: {migrationsPath}");
+                }
+
+                // Ajuste seu método ExecuteMigrations para aceitar o local das pastas
+                EvolveConfig.ExecuteMigrations(ConnectionString, migrationsPath);
+
+                Console.WriteLine("Migrations executadas com sucesso.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Migration error: {ex.Message}");
-                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                Console.WriteLine($"Erro crítico: {ex.Message}");
                 throw;
             }
         }

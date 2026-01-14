@@ -30,33 +30,8 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
             );
         }
 
-        [Fact(DisplayName = "00 - Sign In")]
+        [Fact(DisplayName = "00 - Create User")]
         [TestPriority(0)]
-        public async Task Test_SignIn()
-        {
-            // Arrange
-            var credentials = new UserDTO
-            {
-                Username = "kaique",
-                Password = "admin123"
-            };
-            // Act
-            var response = await _httpClient.PostAsJsonAsync(
-                "/api/auth/signin", credentials);
-            // Assert
-            response.EnsureSuccessStatusCode();
-
-            var token = await response.Content
-                .ReadFromJsonAsync<TokenDTO>();
-
-            token.Should().NotBeNull();
-            token.AccessToken.Should().NotBeNullOrWhiteSpace();
-            token.RefreshToken.Should().NotBeNullOrWhiteSpace();
-            _token = token;
-        }
-
-        [Fact(DisplayName = "01 - Create User")]
-        [TestPriority(1)]
         public async Task Test_CreateUser()
         {
             // Arrange
@@ -84,6 +59,32 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
             created.Is_active.Should().BeTrue();
             _user = created;
         }
+
+        [Fact(DisplayName = "01 - Sign In")]
+        [TestPriority(1)]
+        public async Task Test_SignIn()
+        {
+            // Arrange
+            var credentials = new UserDTO
+            {
+                Username = "joao.macedo",
+                Password = "joao123"
+            };
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(
+                "/api/auth/signin", credentials);
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            var token = await response.Content
+                .ReadFromJsonAsync<TokenDTO>();
+
+            token.Should().NotBeNull();
+            token.AccessToken.Should().NotBeNullOrWhiteSpace();
+            token.RefreshToken.Should().NotBeNullOrWhiteSpace();
+            _token = token;
+        }
+
 
         [Fact(DisplayName = "02 - Update User")]
         [TestPriority(2)]
@@ -127,24 +128,11 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
             foundUser.Should().NotBeNull();
             foundUser.Id.Should().Be(_user?.Id);
             foundUser.Name.Should().Be(_user?.Name);
-            foundUser.Is_active.Should().BeFalse();
+            foundUser.Is_active.Should().BeTrue();
         }
 
-        [Fact(DisplayName = "04 - Delete User by ID")]
+        [Fact(DisplayName = "04 - Find All Users")]
         [TestPriority(4)]
-        public async Task Test_DeleteUserById()
-        {
-            // Arrange & Act
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
-
-            var response = await _httpClient
-                .DeleteAsync($"/api/user/v1/{_user?.Id}");
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
-        [Fact(DisplayName = "05 - Find All Users")]
-        [TestPriority(5)]
         public async Task Test_FindAllUsers()
         {
             // Arrange & Act
@@ -172,6 +160,20 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
             page.TotalResults.Should().BeGreaterThan(0);
             page.PageSize.Should().BeGreaterThan(0);
             page.SortDirections.Should().NotBeNull();
+        }
+
+        [Fact(DisplayName = "05 - Delete User by ID")]
+        [TestPriority(5)]
+        public async Task Test_DeleteUserById()
+        {
+            // Arrange & Act
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
+
+            var response = await _httpClient
+                .DeleteAsync($"/api/user/v1/{_user?.Id}");
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

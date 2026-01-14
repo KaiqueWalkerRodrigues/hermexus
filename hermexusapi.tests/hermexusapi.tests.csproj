@@ -13,11 +13,11 @@
     </Content>
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="Database/Migrations/*.sql">
+		<Content Include="..\backend\hermexusapi\Database\Migrations\*.sql">
+			<Link>Database\Migrations\%(RecursiveDir)%(FileName)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+		</Content>
 	</ItemGroup>
-
 
 	<ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />

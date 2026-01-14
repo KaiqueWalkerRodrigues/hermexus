@@ -1,8 +1,9 @@
 ﻿using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace hermexusapi.tests.IntegrationTests.Tools
 {
-    public class PriorityOrderer
+    public class PriorityOrderer : ITestCaseOrderer
     {
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>
             (IEnumerable<TTestCase> testCases) where TTestCase

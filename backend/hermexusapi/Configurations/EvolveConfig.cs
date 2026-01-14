@@ -15,9 +15,13 @@ namespace hermexusapi.Configurations
             ExecuteMigrations(connectionString);
         }
 
-        public static void ExecuteMigrations(string connectionString)
+        // Adicione o parâmetro opcional migrationFolder
+        public static void ExecuteMigrations(string connectionString, string? migrationFolder = null)
         {
             if (string.IsNullOrEmpty(connectionString)) return;
+
+            // Se migrationFolder não for passado, usa o padrão relativo
+            string folderToUse = migrationFolder ?? "Database/Migrations";
 
             int retryCount = 0;
             const int maxRetries = 10;
@@ -27,17 +31,17 @@ namespace hermexusapi.Configurations
                 try
                 {
                     using var connection = new MySqlConnection(connectionString);
-
                     var evolve = new Evolve(connection, msg => Log.Information("EVOLVE: {Msg}", msg))
                     {
-                        Locations = new[] { "Database/Migrations" },
+                        // Usa a variável folderToUse aqui
+                        Locations = new[] { folderToUse },
                         IsEraseDisabled = true,
                         MetadataTableName = "changelog",
                         SqlMigrationSuffix = ".sql"
                     };
 
                     evolve.Migrate();
-                    Log.Information("EVOLVE: Migrações aplicadas com sucesso.");
+                    Log.Information("EVOLVE: Migrações aplicadas com sucesso em {Path}", folderToUse);
                     return;
                 }
                 catch (Exception ex)
