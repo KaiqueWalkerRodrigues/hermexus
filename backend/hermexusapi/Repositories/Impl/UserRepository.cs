@@ -25,7 +25,7 @@ namespace hermexusapi.Repositories.Impl
         {
             var user = _context.Users.Find(id);
             if (user == null) return null;
-            user.Is_active = false;
+            user.IsActive = false;
             _context.SaveChanges();
             return user;
         }

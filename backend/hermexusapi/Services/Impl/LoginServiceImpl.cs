@@ -40,7 +40,7 @@ namespace hermexusapi.Services.Impl
             if (!_passwordHasher
                 .Verify(userDto.Password, user.Password))
                 return null;
-            if(!user.Is_active) return null;
+            if(!user.IsActive) return null;
 
             return GenerateToken(user);
         }

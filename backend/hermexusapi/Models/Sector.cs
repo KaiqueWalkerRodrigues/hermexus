@@ -8,9 +8,9 @@ namespace hermexusapi.Models
     public class Sector : BaseEntity
     {
         [Column("is_active")]
-        public bool Is_active { get; set; }
+        public bool IsActive { get; set; }
         [Column("companies_id")]
-        public long Companies_Id { get; set; }
+        public long CompanyId { get; set; }
         [Column("name")]
         public string Name { get; set; } = string.Empty;
         [Column("description")]

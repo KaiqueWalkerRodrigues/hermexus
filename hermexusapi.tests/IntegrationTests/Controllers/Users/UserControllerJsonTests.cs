@@ -40,7 +40,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
 
             var request = new UserDTO
             {
-                Is_active = true,
+                IsActive = true,
                 Username = "joao.macedo",
                 Password = "joao123",
                 Name = "João Macedo"
@@ -59,7 +59,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             created.Username.Should().Be("joao.macedo");
             created.Password.Should().NotBe("joao123");
             created.Name.Should().Be("João Macedo");
-            created.Is_active.Should().BeTrue();
+            created.IsActive.Should().BeTrue();
             _user = created;
         }
 
@@ -110,7 +110,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             updated.Id.Should().BeGreaterThan(0);
             updated.Name.Should().Be(_user?.Name);
             updated.Username.Should().Be(_user?.Username);
-            updated.Is_active.Should().BeTrue();
+            updated.IsActive.Should().BeTrue();
             _user = updated;
         }
 
@@ -131,7 +131,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             foundUser.Should().NotBeNull();
             foundUser.Id.Should().Be(_user?.Id);
             foundUser.Name.Should().Be(_user?.Name);
-            foundUser.Is_active.Should().BeTrue();
+            foundUser.IsActive.Should().BeTrue();
         }
 
         [Fact(DisplayName = "04 - Find All Users")]

@@ -7,7 +7,7 @@ namespace hermexusapi.Models
     public class User : BaseEntity
     {
         [Column("is_active")]
-        public bool Is_active { get; set; }
+        public bool IsActive { get; set; }
 
         [Column("username")]
         public string Username { get; set; } = string.Empty;

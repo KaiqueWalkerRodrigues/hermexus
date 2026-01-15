@@ -37,7 +37,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
         public async Task CreateSector_ShouldReturnSuccess()
         {
             // Arrange
-            var newSector = new SectorDTO { Name = "callcenter", Description = "callcenter of system", Companies_Id = 1 };
+            var newSector = new SectorDTO { Name = "callcenter", Description = "callcenter of system", CompanyId = 1 };
 
             // Act
             var response = await _httpClient.PostAsJsonAsync("/api/sector/v1", newSector);
@@ -48,8 +48,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
                 .ReadFromJsonAsync<SectorDTO>();
             created.Should().NotBeNull();
             created.Id.Should().BeGreaterThan(0);
-            created.Is_active.Should().BeTrue();
-            created.Companies_Id.Should().Be(1);
+            created.IsActive.Should().BeTrue();
+            created.CompanyId.Should().Be(1);
             created.Name.Should().Be("callcenter");
             created.Description.Should().Be("callcenter of system");
             _sector = created;
@@ -73,8 +73,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
                 .ReadFromJsonAsync<SectorDTO>();
             updated.Should().NotBeNull();
             updated.Id.Should().Be(_sector?.Id);
-            updated.Companies_Id.Should().Be(_sector?.Companies_Id);
-            updated.Is_active.Should().BeTrue();
+            updated.CompanyId.Should().Be(_sector?.CompanyId);
+            updated.IsActive.Should().BeTrue();
             updated.Name.Should().Be(_sector?.Name);
             updated.Description.Should().Be(_sector?.Description);
             _sector = updated;
@@ -93,8 +93,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
                 .ReadFromJsonAsync<SectorDTO>();
             foundSector.Should().NotBeNull();
             foundSector.Id.Should().Be(_sector?.Id);
-            foundSector.Companies_Id.Should().Be(_sector?.Companies_Id);
-            foundSector.Is_active.Should().BeTrue();
+            foundSector.CompanyId.Should().Be(_sector?.CompanyId);
+            foundSector.IsActive.Should().BeTrue();
             foundSector.Name.Should().Be(_sector?.Name);
             foundSector.Description.Should().Be(_sector?.Description);
         }

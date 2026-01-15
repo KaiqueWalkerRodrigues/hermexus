@@ -11,7 +11,7 @@ namespace hermexusapi.Repositories.Impl
         {
             var sector = _context.Sectors.Find(id);
             if (sector == null) return null;
-            sector.Is_active = false;
+            sector.IsActive = false;
             _context.SaveChanges();
             return sector;
         }

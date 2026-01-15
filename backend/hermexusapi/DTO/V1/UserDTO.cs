@@ -11,7 +11,7 @@ namespace hermexusapi.DTO.V1
         public string? Username { get; set; }
         public string? Password { get; set; }
         public string Name { get; set; } = string.Empty;
-        public bool Is_active { get; set; }
+        public bool IsActive { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public List<HypermediaLink> Links { get; set; } = [];

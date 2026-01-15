@@ -24,7 +24,7 @@ namespace hermexusapi.Services.Impl
                 Username = user.Username,
                 Password = _passwordHasher.Hash(user.Password),
                 Name = user.Name,
-                Is_active = user.Is_active,
+                IsActive = user.IsActive,
                 RefreshToken = string.Empty,
                 RefreshTokenExpiryTime = null
             };
