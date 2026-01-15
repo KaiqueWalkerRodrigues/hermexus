@@ -21,10 +21,6 @@ namespace hermexusapi.tests.IntegrationTests.Tools
         protected override void ConfigureWebHost(
             IWebHostBuilder builder)
         {
-            // Use a separate test environment so Program.cs doesn't re-run migrations.
-            // The test fixture (MySQLFixture) already starts the container and applies
-            // migrations. Running Evolve twice can cause concurrent DB connection
-            // activity and "Cannot Open when State is Connecting." errors.
             builder.UseEnvironment("Testing");
 
             builder.ConfigureAppConfiguration((context, config) =>

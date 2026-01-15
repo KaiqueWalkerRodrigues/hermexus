@@ -14,6 +14,6 @@ namespace hermexusapi.Models
         [Column("name")]
         public string Name { get; set; } = string.Empty;
         [Column("description")]
-        public string Descripition { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
-namespace hermexusapi.Tests.IntegrationTests.JSON
+namespace hermexusapi.tests.IntegrationTests.Controllers.Users
 {
     [TestCaseOrderer(
         TestConfig.TestCaseOrdererFullName,
@@ -40,10 +40,10 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
 
             var request = new UserDTO
             {
+                Is_active = true,
                 Username = "joao.macedo",
                 Password = "joao123",
-                Name = "João Macedo",
-                Is_active = true
+                Name = "João Macedo"
             };
             // Act
             var response = await _httpClient
@@ -56,6 +56,9 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
                 .ReadFromJsonAsync<UserDTO>();
             created.Should().NotBeNull();
             created.Id.Should().BeGreaterThan(0);
+            created.Username.Should().Be("joao.macedo");
+            created.Password.Should().NotBe("joao123");
+            created.Name.Should().Be("João Macedo");
             created.Is_active.Should().BeTrue();
             _user = created;
         }
@@ -85,7 +88,6 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
             _token = token;
         }
 
-
         [Fact(DisplayName = "02 - Update User")]
         [TestPriority(2)]
         public async Task Test_UpdateUser()
@@ -106,7 +108,8 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
                 .ReadFromJsonAsync<UserDTO>();
             updated.Should().NotBeNull();
             updated.Id.Should().BeGreaterThan(0);
-            updated.Name.Should().Be("João Macedo Pinate");
+            updated.Name.Should().Be(_user?.Name);
+            updated.Username.Should().Be(_user?.Username);
             updated.Is_active.Should().BeTrue();
             _user = updated;
         }
@@ -162,9 +165,9 @@ namespace hermexusapi.Tests.IntegrationTests.JSON
             page.SortDirections.Should().NotBeNull();
         }
 
-        [Fact(DisplayName = "05 - Delete User by ID")]
+        [Fact(DisplayName = "05 - Delete User")]
         [TestPriority(5)]
-        public async Task Test_DeleteUserById()
+        public async Task Test_DeleteUser()
         {
             // Arrange & Act
             _httpClient.DefaultRequestHeaders.Authorization =
