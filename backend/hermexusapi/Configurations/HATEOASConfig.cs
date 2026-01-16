@@ -17,6 +17,9 @@ namespace hermexusapi.Configurations
                 new PermissionEnricher()
                 );
             filterOptions.ContentReponseEnricherList.Add(
+                new RobotEnricher()
+                );
+            filterOptions.ContentReponseEnricherList.Add(
                 new RoleEnricher()
                 );
             filterOptions.ContentReponseEnricherList.Add(

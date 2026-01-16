@@ -9,6 +9,7 @@ namespace hermexusapi.Models.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Robot> Robots { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<WhatsappContact> Whatsapp_contacts { get; set; }
@@ -21,6 +22,7 @@ namespace hermexusapi.Models.Context
             // This automatically adds "WHERE Deleted_at IS NULL" to all LINQ queries.
             modelBuilder.Entity<Company>().HasQueryFilter(u => u.Deleted_at == null);
             modelBuilder.Entity<Permission>().HasQueryFilter(u => u.Deleted_at == null);
+            modelBuilder.Entity<Robot>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<Role>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<Sector>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
@@ -35,6 +37,11 @@ namespace hermexusapi.Models.Context
             modelBuilder.Entity<Permission>(entity =>
             {
                 entity.ToTable("permissions");
+                entity.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<Robot>(entity =>
+            {
+                entity.ToTable("robots");
                 entity.HasKey(e => e.Id);
             });
             modelBuilder.Entity<Role>(entity =>

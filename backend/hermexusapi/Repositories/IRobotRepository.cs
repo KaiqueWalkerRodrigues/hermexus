@@ -2,11 +2,11 @@
 
 namespace hermexusapi.Repositories
 {
-    public interface ISectorRepository : IRepository<Sector>
+    public interface IRobotRepository : IRepository<Robot>
     {
-        Sector Disable(long id);
-        List<Sector> FindByName(string name);
-        PagedSearch<Sector> FindWithPagedSearch(
+        List<Robot> FindByName(string name);
+        Robot Disable(long id);
+        PagedSearch<Robot> FindWithPagedSearch(
             string name,
             string sortDirection,
             int pageSize,

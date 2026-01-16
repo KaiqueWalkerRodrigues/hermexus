@@ -32,19 +32,21 @@ builder.Services.AddScoped<ILoginService, LoginServiceImpl>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
 // Services
-builder.Services.AddScoped<IUserService, UserServiceImpl>();
-builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
-builder.Services.AddScoped<ISectorService, SectorServiceImpl>();
 builder.Services.AddScoped<ICompanyService, CompanyServiceImpl>();
 builder.Services.AddScoped<IPermissionService, PermissionServiceImpl>();
+builder.Services.AddScoped<IRobotService, RobotServiceImpl>();
+builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
+builder.Services.AddScoped<ISectorService, SectorServiceImpl>();
+builder.Services.AddScoped<IUserService, UserServiceImpl>();
 builder.Services.AddScoped<IWhatsappContactService, WhatsappContactServiceImpl>();
 
 // Repositories
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<ISectorRepository, SectorRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IRobotRepository, RobotRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ISectorRepository, SectorRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IWhatsappContactRepository, WhatsappContactRepository>();
 
 var app = builder.Build();

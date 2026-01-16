@@ -5,17 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace hermexusapi.DTO.V1
 {
-    [Table("sectors")]
-    public class SectorDTO : BaseEntity, ISupportsHypermedia
+    [Table("robots")]
+    public class RobotDTO : BaseEntity, ISupportsHypermedia
     {
         [Column("is_active")]
-        public bool Is_active { get; set; }
-        [Column("company_id")]
-        public long? Company_id { get; set; }
+        public bool? Is_active { get; set; }
         [Column("name")]
         public string? Name { get; set; }
-        [Column("description")]
-        public string? Description { get; set; }
         public List<HypermediaLink> Links { get; set; } = [];
     }
 }
