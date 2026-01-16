@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `conversations` (
   `sector_id` INT NOT NULL,
   `contact_id` INT NOT NULL,
   `company_id` INT NULL,
+  `robot_id` INT NULL,
   `platform` TINYINT NOT NULL DEFAULT 1,
   `status` TINYINT NULL,
   `ai_enabled` TINYINT NULL,

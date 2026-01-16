@@ -1,13 +1,8 @@
-﻿using Docker.DotNet.Models;
-using FluentAssertions;
+﻿using FluentAssertions;
 using hermexusapi.DTO.V1;
 using hermexusapi.Models;
 using hermexusapi.tests.IntegrationTests.Tools;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json.Linq;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace hermexusapi.tests.IntegrationTests.Controllers.Roles

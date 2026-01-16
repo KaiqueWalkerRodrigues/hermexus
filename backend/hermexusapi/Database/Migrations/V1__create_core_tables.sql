@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `whatsapp_contacts` (
   UNIQUE INDEX `phone_number_UNIQUE` (`phone_number`)
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `bot_settings` (
+CREATE TABLE IF NOT EXISTS `robots` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `is_active` TINYINT NOT NULL DEFAULT 1,
   `name` VARCHAR(150) NOT NULL,

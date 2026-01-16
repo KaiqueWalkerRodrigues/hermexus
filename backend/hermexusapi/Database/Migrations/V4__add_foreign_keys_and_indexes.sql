@@ -16,21 +16,22 @@ ADD CONSTRAINT `fk_users_permissions_permissions` FOREIGN KEY (`permission_id`) 
 
 -- 3. Relacionamentos de Setores (Empresas, Permissões e Usuários)
 ALTER TABLE `sectors` 
-ADD CONSTRAINT `fk_sectors_companies` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION;
+ADD CONSTRAINT `fk_sectors_companies` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `sectors_permissions`
-ADD CONSTRAINT `fk_sectors_permissions_permissions` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE NO ACTION,
-ADD CONSTRAINT `fk_sectors_permissions_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE NO ACTION;
+ADD CONSTRAINT `fk_sectors_permissions_permissions` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_sectors_permissions_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `users_sectors`
-ADD CONSTRAINT `fk_users_sectors_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION,
-ADD CONSTRAINT `fk_users_sectors_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE NO ACTION;
+ADD CONSTRAINT `fk_users_sectors_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_users_sectors_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE;
 
 -- 4. Conversas e Mensagens
 ALTER TABLE `conversations` 
-ADD CONSTRAINT `fk_conversations_companies` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
-ADD CONSTRAINT `fk_conversations_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`);
+ADD CONSTRAINT `fk_conversations_companies` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_conversations_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_conversations_robots` FOREIGN KEY (`robot_id`) REFERENCES `robots` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `messages` 
-ADD CONSTRAINT `fk_messages_conversations` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`),
-ADD CONSTRAINT `fk_messages_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ADD CONSTRAINT `fk_messages_conversations` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `fk_messages_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;

@@ -25,6 +25,9 @@ namespace hermexusapi.Configurations
             filterOptions.ContentReponseEnricherList.Add(
                 new UserEnricher()
                 );
+            filterOptions.ContentReponseEnricherList.Add(
+                new WhatsappContactEnricher()
+                );
             services.AddSingleton(filterOptions);
             services.AddScoped<HypermediaFilter>();
             return services;

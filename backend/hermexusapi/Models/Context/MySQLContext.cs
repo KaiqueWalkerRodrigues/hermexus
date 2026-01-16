@@ -11,6 +11,7 @@ namespace hermexusapi.Models.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sector> Sectors { get; set; }
+        public DbSet<WhatsappContact> Whatsapp_contacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace hermexusapi.Models.Context
             modelBuilder.Entity<Role>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<Sector>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
+            modelBuilder.Entity<WhatsappContact>().HasQueryFilter(u => u.Deleted_at == null);
 
             // Fluent API configuration for Role entity
             modelBuilder.Entity<Company>(entity =>
@@ -48,6 +50,11 @@ namespace hermexusapi.Models.Context
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
+                entity.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<WhatsappContact>(entity =>
+            {
+                entity.ToTable("whatsapp_contacts");
                 entity.HasKey(e => e.Id);
             });
         }
