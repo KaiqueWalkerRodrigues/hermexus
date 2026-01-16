@@ -4,7 +4,6 @@ using hermexusapi.Models;
 using hermexusapi.tests.IntegrationTests.Tools;
 using System.Net;
 using System.Net.Http.Json;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
 {
@@ -28,7 +27,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
             if (_fixture.UserToken != null)
             {
                 _httpClient.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _fixture.UserToken.AccessToken);
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _fixture.UserToken.Access_token);
             }
         }
 
@@ -37,7 +36,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
         public async Task CreateSector_ShouldReturnSuccess()
         {
             // Arrange
-            var newSector = new SectorDTO { Name = "callcenter", Description = "callcenter of system", CompanyId = 1 };
+            var newSector = new SectorDTO { Name = "callcenter", Description = "callcenter of system", Company_id = 1 };
 
             // Act
             var response = await _httpClient.PostAsJsonAsync("/api/sector/v1", newSector);
@@ -48,8 +47,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
                 .ReadFromJsonAsync<SectorDTO>();
             created.Should().NotBeNull();
             created.Id.Should().BeGreaterThan(0);
-            created.IsActive.Should().BeTrue();
-            created.CompanyId.Should().Be(1);
+            created.Is_active.Should().BeTrue();
+            created.Company_id.Should().Be(1);
             created.Name.Should().Be("callcenter");
             created.Description.Should().Be("callcenter of system");
             _sector = created;
@@ -73,8 +72,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
                 .ReadFromJsonAsync<SectorDTO>();
             updated.Should().NotBeNull();
             updated.Id.Should().Be(_sector?.Id);
-            updated.CompanyId.Should().Be(_sector?.CompanyId);
-            updated.IsActive.Should().BeTrue();
+            updated.Company_id.Should().Be(_sector?.Company_id);
+            updated.Is_active.Should().BeTrue();
             updated.Name.Should().Be(_sector?.Name);
             updated.Description.Should().Be(_sector?.Description);
             _sector = updated;
@@ -93,8 +92,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
                 .ReadFromJsonAsync<SectorDTO>();
             foundSector.Should().NotBeNull();
             foundSector.Id.Should().Be(_sector?.Id);
-            foundSector.CompanyId.Should().Be(_sector?.CompanyId);
-            foundSector.IsActive.Should().BeTrue();
+            foundSector.Company_id.Should().Be(_sector?.Company_id);
+            foundSector.Is_active.Should().BeTrue();
             foundSector.Name.Should().Be(_sector?.Name);
             foundSector.Description.Should().Be(_sector?.Description);
         }
@@ -113,18 +112,18 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
             var page = await response.Content
                 .ReadFromJsonAsync<PagedSearch<SectorDTO>>();
             page.Should().NotBeNull();
-            page.CurrentPage.Should().Be(1);
-            page.PageSize.Should().Be(10);
+            page.Current_page.Should().Be(1);
+            page.Page_size.Should().Be(10);
 
             var sectors = page?.List;
 
             sectors.Should().NotBeNull();
             sectors.Count.Should().BeGreaterThan(0);
 
-            page!.CurrentPage.Should().BeGreaterThan(0);
-            page.TotalResults.Should().BeGreaterThan(0);
-            page.PageSize.Should().BeGreaterThan(0);
-            page.SortDirections.Should().NotBeNull();
+            page!.Current_page.Should().BeGreaterThan(0);
+            page.Total_results.Should().BeGreaterThan(0);
+            page.Page_size.Should().BeGreaterThan(0);
+            page.Sort_directions.Should().NotBeNull();
         }
 
         [Fact(DisplayName = "05 - Delete Sector")]

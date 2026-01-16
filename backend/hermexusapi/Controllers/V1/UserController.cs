@@ -29,6 +29,7 @@ namespace hermexusapi.Controllers.V1
                 return BadRequest("Invalid client request!");
             }
 
+            user.Is_active = true;
             var result = _userService.Create(user);
             _logger.LogDebug($"User created: {user.Username}");
             return Ok(result);

@@ -6,6 +6,7 @@ using hermexusapi.Repositories;
 using hermexusapi.Repositories.Impl;
 using hermexusapi.Services;
 using hermexusapi.Services.Impl;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,18 +28,20 @@ builder.Services.AddOpenApi();
 
 // Auth Builders
 builder.Services.AddScoped<IPasswordHasher, Sha256PasswordHasher>();
-builder.Services.AddScoped<IUserService, UserServiceImpl>();
 builder.Services.AddScoped<ILoginService, LoginServiceImpl>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
 // Services
+builder.Services.AddScoped<IUserService, UserServiceImpl>();
 builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
 builder.Services.AddScoped<ISectorService, SectorServiceImpl>();
+builder.Services.AddScoped<ICompanyService, CompanyServiceImpl>();
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ISectorRepository, SectorRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 var app = builder.Build();
 

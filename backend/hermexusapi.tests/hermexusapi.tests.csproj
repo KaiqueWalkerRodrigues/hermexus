@@ -13,7 +13,7 @@
     </Content>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="..\backend\hermexusapi\Database\Migrations\*.sql">
+		<Content Include="..\hermexusapi\Database\Migrations\*.sql">
 			<Link>Database\Migrations\%(RecursiveDir)%(FileName)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\backend\hermexusapi\hermexusapi.csproj" />
+    <ProjectReference Include="..\hermexusapi\hermexusapi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

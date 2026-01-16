@@ -19,7 +19,6 @@ namespace hermexusapi.Controllers.V1
         [ProducesResponseType(200, Type = typeof(List<SignInDTO>))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-
         public IActionResult SignIn([FromBody] SignInDTO user)
         {
             _logger.LogInformation("Attempting to sign in user: {username}", user.Username);

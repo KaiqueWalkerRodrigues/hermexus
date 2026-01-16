@@ -25,7 +25,7 @@ namespace hermexusapi.Auth.Contract.Tools
                 issuer: _configurations.Issuer,
                 audience: _configurations.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(
+                expires: DateTime.UtcNow.AddMinutes(
                     _configurations.Minutes),
                 signingCredentials: signingCredentials
             );

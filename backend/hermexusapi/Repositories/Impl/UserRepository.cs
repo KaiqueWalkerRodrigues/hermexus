@@ -25,7 +25,7 @@ namespace hermexusapi.Repositories.Impl
         {
             var user = _context.Users.Find(id);
             if (user == null) return null;
-            user.IsActive = false;
+            user.Is_active = false;
             _context.SaveChanges();
             return user;
         }
@@ -47,11 +47,11 @@ namespace hermexusapi.Repositories.Impl
 
             return new PagedSearch<User>
             {
-                CurrentPage = page,
+                Current_page = page,
                 List = _users,
-                PageSize = size,
-                SortDirections = sort,
-                TotalResults = _totalResults
+                Page_size = size,
+                Sort_directions = sort,
+                Total_results = _totalResults
             };
         }
         PagedSearch<User> IUserRepository.FindWithPagedSearch(string name, string sortDirection, int pageSize, int page)
@@ -65,11 +65,11 @@ namespace hermexusapi.Repositories.Impl
 
             return new PagedSearch<User>
             {
-                CurrentPage = page,
+                Current_page = page,
                 List = _users,
-                PageSize = size,
-                SortDirections = sort,
-                TotalResults = _totalResults
+                Page_size = size,
+                Sort_directions = sort,
+                Total_results = _totalResults
             };
         }
     }

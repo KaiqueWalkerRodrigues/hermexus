@@ -7,16 +7,16 @@ namespace hermexusapi.Models
     public class User : BaseEntity
     {
         [Column("is_active")]
-        public bool IsActive { get; set; }
+        public bool Is_active { get; set; }
 
         [Column("username")]
         public string Username { get; set; } = string.Empty;
 
         [Column("refresh_token")]
-        public string? RefreshToken { get; set; }
+        public string? Refresh_token { get; set; }
 
         [Column("refresh_token_expiry_time")]
-        public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? Refresh_token_expiry_time { get; set; }
 
         [Column("name")]
         public string Name { get; set; } = string.Empty;

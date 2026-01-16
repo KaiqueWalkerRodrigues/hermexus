@@ -61,7 +61,7 @@ namespace hermexusapi.tests.IntegrationTests.Tools
                 Username = "jonny.test",
                 Password = "johntest@",
                 Name = "Admin Test",
-                IsActive = true
+                Is_active = true
             };
 
             var createResponse = await client.PostAsJsonAsync("/api/user/v1", newUser);

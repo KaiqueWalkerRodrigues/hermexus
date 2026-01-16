@@ -2,7 +2,6 @@
 using hermexusapi.Auth.Contract;
 using hermexusapi.DTO.V1;
 using hermexusapi.Models;
-using hermexusapi.Repositories;
 using Mapster;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -40,7 +39,7 @@ namespace hermexusapi.Services.Impl
             if (!_passwordHasher
                 .Verify(userDto.Password, user.Password))
                 return null;
-            if(!user.IsActive) return null;
+            if(!user.Is_active) return null;
 
             return GenerateToken(user);
         }
@@ -49,13 +48,13 @@ namespace hermexusapi.Services.Impl
         public TokenDTO ValidateCredentials(TokenDTO token)
         {
             var principal = _tokenService
-                .GetPrincipalFromExpiredToken(token.AccessToken);
+                .GetPrincipalFromExpiredToken(token.Access_token);
             var username = principal.Identity?.Name;
 
             var user = _userService.FindByUsername(username);
             if (user == null
-              || user.RefreshToken != token.RefreshToken
-              || user.RefreshTokenExpiryTime <= DateTime.Now)
+              || user.Refresh_token != token.Refresh_token
+              || user.Refresh_token_expiry_time <= DateTime.Now)
             {
                 return null;
             }
@@ -71,7 +70,7 @@ namespace hermexusapi.Services.Impl
 
             if (user == null) return false;
 
-            user.RefreshToken = null;
+            user.Refresh_token = null;
 
             var userDto = user.Adapt<UserDTO>();
 
@@ -88,7 +87,7 @@ namespace hermexusapi.Services.Impl
             var claims = existingClaims?.ToList() ??
             [
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
+                new Claim(ClaimTypes.Name, user.Username)
             ];
 
             var accessToken = _tokenService
@@ -97,15 +96,15 @@ namespace hermexusapi.Services.Impl
             var refreshToken = _tokenService
                 .GenerateRefreshToken();
 
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow
-                .AddDays(_configurations.DaysToExpiry);
+            user.Refresh_token = refreshToken;
+            user.Refresh_token_expiry_time = DateTime.UtcNow
+                .AddDays(_configurations.Days_to_expiry);
 
             var userDto = user.Adapt<UserDTO>();
 
             _userService.Update(userDto);
 
-            var createdDate = DateTime.Now;
+            var createdDate = DateTime.UtcNow;
             var expirationDate = createdDate
                 .AddMinutes(_configurations.Minutes);
 
@@ -114,8 +113,8 @@ namespace hermexusapi.Services.Impl
                 Authenticated = true,
                 Created = createdDate.ToString(DATE_FORMAT),
                 Expiration = expirationDate.ToString(DATE_FORMAT),
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
+                Access_token = accessToken,
+                Refresh_token = refreshToken
             };
         }
     }

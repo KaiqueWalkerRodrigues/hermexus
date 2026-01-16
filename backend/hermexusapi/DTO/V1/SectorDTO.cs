@@ -8,8 +8,8 @@ namespace hermexusapi.DTO.V1
     [Table("sectors")]
     public class SectorDTO : BaseEntity, ISupportsHypermedia
     {
-        public bool IsActive { get; set; }
-        public long? CompanyId { get; set; }
+        public bool Is_active { get; set; }
+        public long? Company_id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public List<HypermediaLink> Links { get; set; } = [];

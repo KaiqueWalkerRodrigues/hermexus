@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Database\NewFolder\**" />
+    <Content Remove="Database\NewFolder\**" />
+    <EmbeddedResource Remove="Database\NewFolder\**" />
+    <None Remove="Database\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Evolve" Version="3.2.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
@@ -20,6 +27,10 @@
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\Dataset\" />
   </ItemGroup>
 
 </Project>

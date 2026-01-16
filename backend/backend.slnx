@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="../hermexusapi.tests/hermexusapi.tests.csproj" Id="09d7d61b-51c2-4aff-a8c0-d6195db1fa4d" />
+  <Project Path="hermexusapi.tests/hermexusapi.tests.csproj" Id="09d7d61b-51c2-4aff-a8c0-d6195db1fa4d" />
   <Project Path="docker-compose.dcproj">
     <Build />
   </Project>

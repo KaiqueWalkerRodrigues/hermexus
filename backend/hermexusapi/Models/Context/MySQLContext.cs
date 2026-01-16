@@ -9,6 +9,7 @@ namespace hermexusapi.Models.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sector> Sectors { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +20,7 @@ namespace hermexusapi.Models.Context
             modelBuilder.Entity<Role>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<Sector>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
+            modelBuilder.Entity<Company>().HasQueryFilter(u => u.Deleted_at == null);
 
             // Fluent API configuration for Role entity
             modelBuilder.Entity<Role>(entity =>
@@ -26,18 +28,19 @@ namespace hermexusapi.Models.Context
                 entity.ToTable("roles");
                 entity.HasKey(e => e.Id);
             });
-
-            // Fluent API configuration for Role entity
             modelBuilder.Entity<Sector>(entity =>
             {
                 entity.ToTable("sectors");
                 entity.HasKey(e => e.Id);
             });
-
-            // Fluent API configuration for User entity
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
+                entity.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<Company>(entity =>
+            {
+                entity.ToTable("companies");
                 entity.HasKey(e => e.Id);
             });
         }

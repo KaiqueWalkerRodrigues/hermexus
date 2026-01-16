@@ -2,11 +2,10 @@
 
 namespace hermexusapi.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface ICompanyRepository : IRepository<Company>
     {
-        User? FindByUsername(string username);
-        User Disable(long id);
-        PagedSearch<User> FindWithPagedSearch(
+        Company Disable(long id);
+        PagedSearch<Company> FindWithPagedSearch(
             string name,
             string sortDirection,
             int pageSize,

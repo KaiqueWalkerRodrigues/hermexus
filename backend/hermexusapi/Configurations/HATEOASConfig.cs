@@ -11,6 +11,9 @@ namespace hermexusapi.Configurations
         {
             var filterOptions = new HypermediaFilterOptions();
             filterOptions.ContentReponseEnricherList.Add(
+                new CompanyEnricher()
+                );
+            filterOptions.ContentReponseEnricherList.Add(
                 new RoleEnricher()
                 );
             filterOptions.ContentReponseEnricherList.Add(

@@ -109,14 +109,14 @@ namespace hermexusapi.Controllers.V1
         public IActionResult Disable(long id)
         {
             _logger.LogInformation($"Disabling sector with ID {id}");
-            var disabledPerson = _sectorService.Disable(id);
-            if (disabledPerson == null)
+            var disabledSector = _sectorService.Disable(id);
+            if (disabledSector == null)
             {
                 _logger.LogError($"Failed to disable sector with ID {id}");
                 return NotFound();
             }
-            _logger.LogDebug($"Person with ID {id} disabled successfully");
-            return Ok(disabledPerson);
+            _logger.LogDebug($"Sector with ID {id} disabled successfully");
+            return Ok(disabledSector);
         }
     }
 }

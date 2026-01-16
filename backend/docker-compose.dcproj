@@ -8,5 +8,12 @@
   <ItemGroup>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="hermexusapi.tests\IntegrationTests\Controllers\Companies\CompanyControllerJsonTests.cs" />
+    <None Include="hermexusapi.tests\IntegrationTests\Controllers\Roles\RoleControllerJsonTests.cs" />
+    <None Include="hermexusapi.tests\IntegrationTests\Controllers\Sectors\SectorControllerJsonTests.cs" />
+    <None Include="hermexusapi.tests\IntegrationTests\Controllers\Users\UserControllerJsonTests.cs" />
+    <None Include="hermexusapi.tests\IntegrationTests\TestCollections.cs" />
+    <None Include="hermexusapi.tests\IntegrationTests\Tools\CollectionOrderer.cs" />
+    <None Include="hermexusapi.tests\xunit.runner.json" />
   </ItemGroup>
 </Project>

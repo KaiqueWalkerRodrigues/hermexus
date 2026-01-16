@@ -27,11 +27,11 @@ namespace hermexusapi.Repositories.Impl
 
             return new PagedSearch<Role>
             {
-                CurrentPage = page,
+                Current_page = page,
                 List = _roles,
-                PageSize = size,
-                SortDirections = sort,
-                TotalResults = _totalResults
+                Page_size = size,
+                Sort_directions = sort,
+                Total_results = _totalResults
             };
         }
     }

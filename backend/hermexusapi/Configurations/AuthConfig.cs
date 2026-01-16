@@ -58,7 +58,7 @@ namespace hermexusapi.Configurations
 
             services.AddAuthorizationBuilder()
                 .AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build());
             return services;
         }

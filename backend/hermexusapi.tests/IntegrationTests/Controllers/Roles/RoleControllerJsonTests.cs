@@ -32,7 +32,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Roles
             if (_fixture.UserToken != null)
             {
                 _httpClient.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _fixture.UserToken.AccessToken);
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _fixture.UserToken.Access_token);
             }
         }
 
@@ -111,18 +111,18 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Roles
             var page = await response.Content
                 .ReadFromJsonAsync<PagedSearch<RoleDTO>>();
             page.Should().NotBeNull();
-            page.CurrentPage.Should().Be(1);
-            page.PageSize.Should().Be(10);
+            page.Current_page.Should().Be(1);
+            page.Page_size.Should().Be(10);
 
             var roles = page?.List;
 
             roles.Should().NotBeNull();
             roles.Count.Should().BeGreaterThan(0);
 
-            page!.CurrentPage.Should().BeGreaterThan(0);
-            page.TotalResults.Should().BeGreaterThan(0);
-            page.PageSize.Should().BeGreaterThan(0);
-            page.SortDirections.Should().NotBeNull();
+            page!.Current_page.Should().BeGreaterThan(0);
+            page.Total_results.Should().BeGreaterThan(0);
+            page.Page_size.Should().BeGreaterThan(0);
+            page.Sort_directions.Should().NotBeNull();
         }
 
         [Fact(DisplayName = "05 - Delete Role")]

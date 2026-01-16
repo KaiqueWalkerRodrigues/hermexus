@@ -36,11 +36,11 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
         {
             // Arrange
             _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
+                new AuthenticationHeaderValue("Bearer", _token?.Access_token);
 
             var request = new UserDTO
             {
-                IsActive = true,
+                Is_active = true,
                 Username = "joao.macedo",
                 Password = "joao123",
                 Name = "João Macedo"
@@ -59,7 +59,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             created.Username.Should().Be("joao.macedo");
             created.Password.Should().NotBe("joao123");
             created.Name.Should().Be("João Macedo");
-            created.IsActive.Should().BeTrue();
+            created.Is_active.Should().BeTrue();
             _user = created;
         }
 
@@ -83,8 +83,8 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
                 .ReadFromJsonAsync<TokenDTO>();
 
             token.Should().NotBeNull();
-            token.AccessToken.Should().NotBeNullOrWhiteSpace();
-            token.RefreshToken.Should().NotBeNullOrWhiteSpace();
+            token.Access_token.Should().NotBeNullOrWhiteSpace();
+            token.Refresh_token.Should().NotBeNullOrWhiteSpace();
             _token = token;
         }
 
@@ -94,7 +94,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
         {
             // Arrange
             _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
+                new AuthenticationHeaderValue("Bearer", _token?.Access_token);
 
             _user?.Name = "João Macedo Pinate";
             // Act
@@ -110,7 +110,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             updated.Id.Should().BeGreaterThan(0);
             updated.Name.Should().Be(_user?.Name);
             updated.Username.Should().Be(_user?.Username);
-            updated.IsActive.Should().BeTrue();
+            updated.Is_active.Should().BeTrue();
             _user = updated;
         }
 
@@ -120,7 +120,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
         {
             // Arrange & Act
             _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
+                new AuthenticationHeaderValue("Bearer", _token?.Access_token);
 
             var response = await _httpClient
                 .GetAsync($"/api/user/v1/{_user?.Id}");
@@ -131,7 +131,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             foundUser.Should().NotBeNull();
             foundUser.Id.Should().Be(_user?.Id);
             foundUser.Name.Should().Be(_user?.Name);
-            foundUser.IsActive.Should().BeTrue();
+            foundUser.Is_active.Should().BeTrue();
         }
 
         [Fact(DisplayName = "04 - Find All Users")]
@@ -140,7 +140,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
         {
             // Arrange & Act
             _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
+                new AuthenticationHeaderValue("Bearer", _token?.Access_token);
 
             var response = await _httpClient
                 .GetAsync("/api/user/v1/asc/10/1");
@@ -151,18 +151,18 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
             var page = await response.Content
                 .ReadFromJsonAsync<PagedSearch<UserDTO>>();
             page.Should().NotBeNull();
-            page.CurrentPage.Should().Be(1);
-            page.PageSize.Should().Be(10);
+            page.Current_page.Should().Be(1);
+            page.Page_size.Should().Be(10);
 
             var users = page?.List;
 
             users.Should().NotBeNull();
             users.Count.Should().BeGreaterThan(0);
 
-            page!.CurrentPage.Should().BeGreaterThan(0);
-            page.TotalResults.Should().BeGreaterThan(0);
-            page.PageSize.Should().BeGreaterThan(0);
-            page.SortDirections.Should().NotBeNull();
+            page!.Current_page.Should().BeGreaterThan(0);
+            page.Total_results.Should().BeGreaterThan(0);
+            page.Page_size.Should().BeGreaterThan(0);
+            page.Sort_directions.Should().NotBeNull();
         }
 
         [Fact(DisplayName = "05 - Delete User")]
@@ -171,7 +171,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Users
         {
             // Arrange & Act
             _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token?.AccessToken);
+                new AuthenticationHeaderValue("Bearer", _token?.Access_token);
 
             var response = await _httpClient
                 .DeleteAsync($"/api/user/v1/{_user?.Id}");

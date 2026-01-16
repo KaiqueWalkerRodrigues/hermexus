@@ -5,11 +5,11 @@ namespace hermexusapi.Hypermedia.Utils
 {
     public class PagedSearchDTO<T> where T : ISupportsHypermedia
     {
-        public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
-        public int TotalResults { get; set; }
-        public string SortFields { get; set; }
-        public string SortDirections { get; set; } = "asc";
+        public int Current_page { get; set; }
+        public int Page_size { get; set; }
+        public int Total_results { get; set; }
+        public string Sort_fields { get; set; }
+        public string Sort_directions { get; set; } = "asc";
 
         [XmlIgnore]
         public Dictionary<string, object> Filters { get; set; } = [];
@@ -25,10 +25,10 @@ namespace hermexusapi.Hypermedia.Utils
             string sortDirections,
             Dictionary<string, object> filters)
         {
-            CurrentPage = currentPage;
-            PageSize = pageSize;
-            SortFields = sortFields;
-            SortDirections = sortDirections;
+            Current_page = currentPage;
+            Page_size = pageSize;
+            Sort_fields = sortFields;
+            Sort_directions = sortDirections;
             Filters = filters ?? [];
         }
 
@@ -39,7 +39,7 @@ namespace hermexusapi.Hypermedia.Utils
             )
             : this(currentPage, 10, sortFields, sortDirections, null) { }
 
-        public int GetCurrentPage() => CurrentPage == 0 ? 1 : CurrentPage;
-        public int GetPageSize() => PageSize == 0 ? 10 : PageSize;
+        public int GetCurrentPage() => Current_page == 0 ? 1 : Current_page;
+        public int GetPageSize() => Page_size == 0 ? 10 : Page_size;
     }
 }

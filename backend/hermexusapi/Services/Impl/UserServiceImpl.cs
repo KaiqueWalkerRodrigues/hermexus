@@ -24,14 +24,14 @@ namespace hermexusapi.Services.Impl
                 Username = user.Username,
                 Password = _passwordHasher.Hash(user.Password),
                 Name = user.Name,
-                IsActive = user.IsActive,
-                RefreshToken = string.Empty,
-                RefreshTokenExpiryTime = null
+                Is_active = user.Is_active,
+                Refresh_token = string.Empty,
+                Refresh_token_expiry_time = null
             };
             entity = _repository.Create(entity);
             entity.Password = "***********";
-            entity.RefreshToken = "***********";
-             entity.RefreshTokenExpiryTime = null;
+            entity.Refresh_token = "***********";
+            entity.Refresh_token_expiry_time = null;
             return entity.Adapt<UserDTO>();
         }
 
@@ -45,8 +45,8 @@ namespace hermexusapi.Services.Impl
             }
 
             entity.Password = "***********";
-            entity.RefreshToken = "***********";
-            entity.RefreshTokenExpiryTime = null;
+            entity.Refresh_token = "***********";
+            entity.Refresh_token_expiry_time = null;
 
             return entity.Adapt<UserDTO>();
         }
@@ -60,8 +60,8 @@ namespace hermexusapi.Services.Impl
                 return null;
             }
             entity.Password = "***********";
-            entity.RefreshToken = "***********";
-            entity.RefreshTokenExpiryTime = null;
+            entity.Refresh_token = "***********";
+            entity.Refresh_token_expiry_time = null;
             return entity.Adapt<UserDTO>();
         }
 
@@ -81,8 +81,8 @@ namespace hermexusapi.Services.Impl
                 {
                     if (user == null) continue;
                     user.Password = "***********";
-                    user.RefreshToken = "***********";
-                    user.RefreshTokenExpiryTime = null;
+                    user.Refresh_token = "***********";
+                    user.Refresh_token_expiry_time = null;
                 }
             }
 
