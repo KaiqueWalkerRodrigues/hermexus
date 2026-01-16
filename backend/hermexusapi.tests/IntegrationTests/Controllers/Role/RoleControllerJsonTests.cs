@@ -38,7 +38,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Roles
 
         [Fact(DisplayName = "01 - Create Role")]
         [TestPriority(1)]
-        public async Task CreateRole_ShouldReturnSuccess()
+        public async Task CreateRole()
         {
             // Arrange
             var newRole = new RoleDTO { Name = "administrator", Description = "administrator of system" };
@@ -131,7 +131,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Roles
         {
             // Arrange & Act
             var response = await _httpClient
-                .DeleteAsync($"/api/user/v1/{_role?.Id}");
+                .DeleteAsync($"/api/role/v1/{_role?.Id}");
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

@@ -6,10 +6,11 @@ namespace hermexusapi.Models.Context
 {
     public class MySQLContext(DbContextOptions<MySQLContext> options) : DbContext(options)
     {
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sector> Sectors { get; set; }
-        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,12 +18,23 @@ namespace hermexusapi.Models.Context
 
             // Configures a Global Query Filter for Soft Delete on all supported entities.
             // This automatically adds "WHERE Deleted_at IS NULL" to all LINQ queries.
+            modelBuilder.Entity<Company>().HasQueryFilter(u => u.Deleted_at == null);
+            modelBuilder.Entity<Permission>().HasQueryFilter(u => u.Deleted_at == null);
             modelBuilder.Entity<Role>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<Sector>().HasQueryFilter(r => r.Deleted_at == null);
             modelBuilder.Entity<User>().HasQueryFilter(u => u.Deleted_at == null);
-            modelBuilder.Entity<Company>().HasQueryFilter(u => u.Deleted_at == null);
 
             // Fluent API configuration for Role entity
+            modelBuilder.Entity<Company>(entity =>
+            {
+                entity.ToTable("companies");
+                entity.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<Permission>(entity =>
+            {
+                entity.ToTable("permissions");
+                entity.HasKey(e => e.Id);
+            });
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("roles");
@@ -36,11 +48,6 @@ namespace hermexusapi.Models.Context
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
-                entity.HasKey(e => e.Id);
-            });
-            modelBuilder.Entity<Company>(entity =>
-            {
-                entity.ToTable("companies");
                 entity.HasKey(e => e.Id);
             });
         }

@@ -36,12 +36,14 @@ builder.Services.AddScoped<IUserService, UserServiceImpl>();
 builder.Services.AddScoped<IRoleService, RoleServiceImpl>();
 builder.Services.AddScoped<ISectorService, SectorServiceImpl>();
 builder.Services.AddScoped<ICompanyService, CompanyServiceImpl>();
+builder.Services.AddScoped<IPermissionService, PermissionServiceImpl>();
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ISectorRepository, SectorRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 
 var app = builder.Build();
 

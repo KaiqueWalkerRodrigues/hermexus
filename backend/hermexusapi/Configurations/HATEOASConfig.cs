@@ -14,6 +14,9 @@ namespace hermexusapi.Configurations
                 new CompanyEnricher()
                 );
             filterOptions.ContentReponseEnricherList.Add(
+                new PermissionEnricher()
+                );
+            filterOptions.ContentReponseEnricherList.Add(
                 new RoleEnricher()
                 );
             filterOptions.ContentReponseEnricherList.Add(
