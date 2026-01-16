@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 CREATE TABLE IF NOT EXISTS `sectors` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `companies_id` INT NOT NULL,
+  `company_id` INT NOT NULL,
   `is_active` TINYINT NOT NULL DEFAULT 1,
   `name` VARCHAR(100) NOT NULL,
   `description` VARCHAR(150) NULL,

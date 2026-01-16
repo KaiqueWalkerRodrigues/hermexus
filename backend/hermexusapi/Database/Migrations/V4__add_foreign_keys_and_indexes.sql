@@ -16,7 +16,7 @@ ADD CONSTRAINT `fk_users_permissions_permissions` FOREIGN KEY (`permission_id`) 
 
 -- 3. Relacionamentos de Setores (Empresas, Permissões e Usuários)
 ALTER TABLE `sectors` 
-ADD CONSTRAINT `fk_sectors_companies` FOREIGN KEY (`companies_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION;
+ADD CONSTRAINT `fk_sectors_companies` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION;
 
 ALTER TABLE `sectors_permissions`
 ADD CONSTRAINT `fk_sectors_permissions_permissions` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE NO ACTION,
@@ -28,7 +28,7 @@ ADD CONSTRAINT `fk_users_sectors_sectors` FOREIGN KEY (`sector_id`) REFERENCES `
 
 -- 4. Conversas e Mensagens
 ALTER TABLE `conversations` 
-ADD CONSTRAINT `fk_conversations_companies` FOREIGN KEY (`companies_id`) REFERENCES `companies` (`id`),
+ADD CONSTRAINT `fk_conversations_companies` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
 ADD CONSTRAINT `fk_conversations_sectors` FOREIGN KEY (`sector_id`) REFERENCES `sectors` (`id`);
 
 ALTER TABLE `messages` 

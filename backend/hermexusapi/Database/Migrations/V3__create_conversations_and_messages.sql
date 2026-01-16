@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `conversations` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `sector_id` INT NOT NULL,
   `contact_id` INT NOT NULL,
-  `companies_id` INT NULL,
+  `company_id` INT NULL,
   `platform` TINYINT NOT NULL DEFAULT 1,
   `status` TINYINT NULL,
   `ai_enabled` TINYINT NULL,

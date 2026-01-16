@@ -9,7 +9,7 @@ namespace hermexusapi.Models
     {
         [Column("is_active")]
         public bool Is_active { get; set; }
-        [Column("companies_id")]
+        [Column("company_id")]
         public long Company_id { get; set; }
         [Column("name")]
         public string Name { get; set; } = string.Empty;

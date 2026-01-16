@@ -16,6 +16,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
         private readonly HttpClient _httpClient;
         private readonly MySQLFixture _fixture;
         private static SectorDTO? _sector;
+        private static CompanyDTO? _company;
 
         public SectorControllerJsonTests(MySQLFixture sqlFixture)
         {
@@ -31,12 +32,31 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
             }
         }
 
-        [Fact(DisplayName = "01 - Create Sector")]
-        [TestPriority(1)]
-        public async Task CreateSector_ShouldReturnSuccess()
+        [Fact(DisplayName = "00 - Create Requiriments")]
+        [TestPriority(0)]
+        public async Task CreateRequiriments()
         {
             // Arrange
-            var newSector = new SectorDTO { Name = "callcenter", Description = "callcenter of system", Company_id = 1 };
+            var newCompany = new CompanyDTO { Name = "Test Company", Is_active = true, Legal_name = "Test Company LTDA", Document_number = "55155" };
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync("/api/company/v1", newCompany);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var created = await response.Content
+                .ReadFromJsonAsync<CompanyDTO>();
+            created.Should().NotBeNull();
+            created.Id.Should().BeGreaterThan(0);
+            _company = created;
+        }
+
+        [Fact(DisplayName = "01 - Create Sector")]
+        [TestPriority(1)]
+        public async Task CreateSector()
+        {
+            // Arrange
+            var newSector = new SectorDTO { Name = "callcenter", Description = "callcenter of system", Company_id = _company?.Id, Is_active = true };
 
             // Act
             var response = await _httpClient.PostAsJsonAsync("/api/sector/v1", newSector);
@@ -48,7 +68,7 @@ namespace hermexusapi.tests.IntegrationTests.Controllers.Sectors
             created.Should().NotBeNull();
             created.Id.Should().BeGreaterThan(0);
             created.Is_active.Should().BeTrue();
-            created.Company_id.Should().Be(1);
+            created.Company_id.Should().Be(_company?.Id);
             created.Name.Should().Be("callcenter");
             created.Description.Should().Be("callcenter of system");
             _sector = created;
